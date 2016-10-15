@@ -2,6 +2,9 @@
 #include "Windmill.h"
 
 Windmill::Windmill(float x, float y){
+    ox = x;
+    oy = y;
+
     bounding = new sf::RectangleShape(sf::Vector2<float>(1.0f, 1.0f));
     bounding->setFillColor(sf::Color::Transparent);
     bounding->setOrigin(0.0f, 50.0f);
@@ -25,12 +28,34 @@ Windmill::Windmill(float x, float y){
     }
 }
 
+void Windmill::AddSatellite(Windmill* windmill){
+    boundingNode->Add(windmill->GetRootNode());
+    windmill->Move();
+}
+
 void Windmill::Draw(sf::RenderTarget* target){
     boundingNode->Draw(target);
 }
 
+TransformNode* Windmill::GetRootNode(){
+    return boundingNode;
+}
+
+void Windmill::Move(){
+    bounding->setPosition(0.0f, 0.0f);
+}
+
 void Windmill::Orbit(float r){
     bounding->rotate(r);
+}
+
+void Windmill::RemoveSatellite(Windmill* windmill){
+    boundingNode->Remove(windmill->GetRootNode());
+    windmill->Reset();
+}
+
+void Windmill::Reset(){
+    bounding->setPosition(ox, oy);
 }
 
 void Windmill::Rotate(float r){

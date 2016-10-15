@@ -8,8 +8,13 @@ class Windmill{
 public:
 
     Windmill(float x, float y);
+    void AddSatellite(Windmill* windmill);
     void Draw(sf::RenderTarget *target);
+    TransformNode* GetRootNode();
+    void Move();
     void Orbit(float r);
+    void RemoveSatellite(Windmill* windmill);
+    void Reset();
     void Rotate(float r);
     void RotateBlades(float r);
 
@@ -22,6 +27,9 @@ protected:
     TransformNode* boundingNode;
     TransformNode* bodyNode;
     TransformNode* bladeNodes[4];
+
+    float ox;
+    float oy;
 
 };
 

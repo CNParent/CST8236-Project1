@@ -51,6 +51,8 @@ int main(int argc, char* argv) {
                     selected[0] = windmills[0];
                     selected[1] = windmills[1];
                     selected[2] = windmills[2];
+                    windmills[0]->AddSatellite(windmills[1]);
+                    windmills[1]->AddSatellite(windmills[2]);
                 }
                 else {
                     if (sfEvent.key.code == sf::Keyboard::Num1) selected[0] = windmills[0];
@@ -58,6 +60,8 @@ int main(int argc, char* argv) {
                     else if (sfEvent.key.code == sf::Keyboard::Num3) selected[0] = windmills[2];
                     selected[1] = nullptr;
                     selected[2] = nullptr;
+                    windmills[0]->RemoveSatellite(windmills[1]);
+                    windmills[1]->RemoveSatellite(windmills[2]);
                 }
             }
             if (sfEvent.type == sf::Event::MouseMoved) {
@@ -73,9 +77,12 @@ int main(int argc, char* argv) {
 
 		window.clear();
         window.draw(clouds);
-        for each (Windmill* w in windmills){
-            w->RotateBlades(180.0 * t);
-            w->Draw(&window);
+        windmills[0]->Draw(&window);
+        if (selected[1] == nullptr) windmills[1]->Draw(&window);
+        if (selected[2] == nullptr) windmills[2]->Draw(&window);
+
+        for each(Windmill* w in windmills){
+            w->RotateBlades(180.0f * t);
         }
 
 		window.display();
