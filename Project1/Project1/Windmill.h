@@ -20,6 +20,9 @@ public:
 
 protected:
     
+    sf::Texture bodyTexture;
+    sf::Texture bladeTexture;
+
     sf::RectangleShape* bounding;
     sf::RectangleShape* body;
     sf::RectangleShape* blades[4];

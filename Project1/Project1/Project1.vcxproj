@@ -141,6 +141,8 @@
     <ClInclude Include="Windmill.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Blades.png" />
+    <Image Include="Body.png" />
     <Image Include="Clouds.png" />
   </ItemGroup>
   <ItemGroup>

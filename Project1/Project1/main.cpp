@@ -5,7 +5,7 @@
 It was naught but windmills dancing in the tranquility found above the 
 stormclouds that brought enlightenment to our intrepid hero.
 ******************************************************************************/
-float getRate();
+float rng(float min, float max);
 
 int main(int argc, char* argv) {
 	sf::RenderWindow window(sf::VideoMode(600, 600), "Windmills");
@@ -42,6 +42,10 @@ int main(int argc, char* argv) {
     float mouseX = 0.0f;
     float mouseY = 0.0f;
 	float t = 0.0f;
+    float accumulatedT = 0.0f;
+    float next = rng(0.5f, 3.0f);
+    float scrollRateX = rng(-2000.0f, 2000.0f);
+    float scrollRateY = rng(-2000.0f, 2000.0f);
 	while (window.isOpen()) {
 		deltaTime.restart();
         while (window.pollEvent(sfEvent)) {
@@ -75,7 +79,27 @@ int main(int argc, char* argv) {
             }
         }
 
-		window.clear();
+        accumulatedT += t;
+        if (accumulatedT > 0.01f){
+            cloudRect = clouds.getTextureRect();
+            cloudRect.left -= scrollRateX * accumulatedT;
+            if (cloudRect.left < -300.0f) cloudRect.left += 300.0f;
+            else if (cloudRect.left > 300.0f) cloudRect.left -= 300.0f;
+            cloudRect.top -= scrollRateY * accumulatedT;
+            if (cloudRect.top < -300.0f) cloudRect.left += 300.0f;
+            else if (cloudRect.top > 300.0f) cloudRect.top -= 300.0f;
+            clouds.setTextureRect(cloudRect);
+            accumulatedT = 0.0f;
+        }
+
+        next -= t;
+        if (next < 0.0f){
+            next = rng(0.5f, 3.0f);
+            scrollRateX = rng(-2000.0f, 2000.0f);
+            scrollRateY = rng(-2000.0f, 2000.0f);
+        }
+
+        window.clear();
         window.draw(clouds);
         windmills[0]->Draw(&window);
         if (selected[1] == nullptr) windmills[1]->Draw(&window);
@@ -90,4 +114,8 @@ int main(int argc, char* argv) {
 	}
 
 	return 0;
+}
+
+float rng(float min, float max){
+    return rand() % (int)(max - min) + min;
 }
