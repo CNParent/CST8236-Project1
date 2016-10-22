@@ -33,7 +33,8 @@ int main(int argc, char* argv) {
 
     // Audio
     sf::Music bgm;
-    bgm.openFromFile("HEYAYA.flac");
+    bgm.openFromFile("HEYAYA.flac"); 
+    bgm.setLoop(true);
     bgm.play();
 
     sf::Clock deltaTime;
